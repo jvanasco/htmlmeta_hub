@@ -31,6 +31,10 @@ def htmlmeta_get(k):
     """proxies HtmlMetaHub.get through c._htmlmeta"""
     return c._htmlmeta.get(k)
 
+def htmlmeta_unset(k):
+    """proxies HtmlMetaHub.unset through c._htmlmeta"""
+    c._htmlmeta.unset(k)
+
 def htmlmeta_as_html():
     """proxies HtmlMetaHub.as_html through c._htmlmeta"""
     return c._htmlmeta.as_html()

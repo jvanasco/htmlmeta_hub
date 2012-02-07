@@ -20,6 +20,8 @@ class HtmlMetaHub(object):
         self.data_struct['name'][key]= value
         
     def set( self, key, value ):
+        """ set uses (k,v) as there exists valid meta names which are now kwarg safe
+        """
         if key.lower() in _http_equivs :
             self.data_struct['http-equiv'][key]= value
         else:
@@ -30,6 +32,14 @@ class HtmlMetaHub(object):
             return self.data_struct['http-equiv'][key]
         else:
             return self.data_struct['name'][key]
+
+    def unset(self,key):
+        if key.lower() in _http_equivs :
+            if key in self.data_struct['http-equiv']:
+                del self.data_struct['http-equiv'][key]
+        else:
+            if key in self.data_struct['name']:
+                del self.data_struct['name'][key]
 
     def as_html(self):
         """helper function. prints out metadata for you.

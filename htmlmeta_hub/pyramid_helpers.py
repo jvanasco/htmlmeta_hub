@@ -46,6 +46,12 @@ def htmlmeta_get(k,request=None):
        request= get_current_request()
     return request._htmlmeta.get(k)
 
+def htmlmeta_unset(k,request=None):
+    """proxies HtmlMetaHub.unset through request._htmlmeta"""
+    if request is None:
+       request= get_current_request()
+    return request._htmlmeta.unset(k)
+
 def htmlmeta_as_html(request=None):
     """proxies HtmlMetaHub.as_html through request._htmlmeta"""
     if request is None:
