@@ -38,7 +38,7 @@ class HtmlMetaHub(object):
         """
         output= []
         for k,v in self.data_struct['http-equiv'].iteritems():
-            output.append( """<meta http-equiv="%s" content="%s" />""" % ( k , v )
+            output.append( """<meta http-equiv="%s" content="%s" />""" % ( k , v ) )
         for k,v in self.data_struct['name'].iteritems():
-            output.append( """<meta name="%s" content="%s" />""" % ( k , v.replace("'","\'") )
+            output.append( """<meta name="%s" content="%s" />""" % ( k , v.replace("'","\'") ) )
         return "\n".join(output)
