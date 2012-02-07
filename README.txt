@@ -1,0 +1,1 @@
+htmlmeta_hub gives lightweight support for managing metadata. it simply manages a dict of metadata, and prints it out. there are helpers for pylons and pyramid which will attach the object to a request, allowing you to build up metadata throughtout the request cycle and then print it out.
