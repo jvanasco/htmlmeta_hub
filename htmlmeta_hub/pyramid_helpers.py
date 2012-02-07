@@ -39,6 +39,12 @@ def htmlmeta_set(k,v,request=None):
     if request is None:
        request= get_current_request()
     request._htmlmeta.set(k,v)
+    
+def htmlmeta_get(k,request=None):
+    """proxies HtmlMetaHub.get through request._htmlmeta"""
+    if request is None:
+       request= get_current_request()
+    return request._htmlmeta.get(k)
 
 def htmlmeta_as_html(request=None):
     """proxies HtmlMetaHub.as_html through request._htmlmeta"""

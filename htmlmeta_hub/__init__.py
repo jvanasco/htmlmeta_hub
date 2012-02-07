@@ -20,11 +20,16 @@ class HtmlMetaHub(object):
         self.data_struct['name'][key]= value
         
     def set( self, key, value ):
-        k= key.lower()
         if key.lower() in _http_equivs :
-            self.set_http_equiv(key,value)
+            self.data_struct['http-equiv'][key]= value
         else:
-            self.set_name(key,value)
+            self.data_struct['name'][key]= value
+    
+    def get(self,key):
+        if key.lower() in _http_equivs :
+            return self.data_struct['http-equiv'][key]
+        else:
+            return self.data_struct['name'][key]
 
     def as_html(self):
         """helper function. prints out metadata for you.
