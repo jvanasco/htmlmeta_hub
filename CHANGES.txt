@@ -1,6 +1,8 @@
 0.0.2
 	bugfix in pyramid helper, a typo caused an error
 	updated pyramid and pylons __init__ functions to return the wrapped object
+	removed trailing space in meta tags -- ||" />|| becomes ||"/>||
+	added in tests for core and pyramid helpers. pylons is too difficult to test against. sorry
 	
 0.0.1
 	initial import
