@@ -31,6 +31,7 @@ setup(name="htmlmeta_hub",
       include_package_data=True,
       zip_safe=False,
       tests_require = requires,
+      test_suite="tests",
       install_requires = requires,
       )
 

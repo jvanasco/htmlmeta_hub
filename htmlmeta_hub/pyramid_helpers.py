@@ -21,12 +21,13 @@ def htmlmeta_setup( request=None , **kwargs ):
     if request is None:
        request= get_current_request()
     request._htmlmeta= HtmlMetaHub( **kwargs )
+    return request._htmlmeta
 
 def htmlmeta_set_http_equiv(k,v,request=None):
     """proxies HtmlMetaHub.set_http_equiv through request._htmlmeta"""
     if request is None:
        request= get_current_request()
-    crequest._htmlmeta.set_http_equiv()
+    request._htmlmeta.set_http_equiv(k,v)
 
 def htmlmeta_set_name(k,v,request=None):
     """proxies HtmlMetaHub.set_name through request._htmlmeta"""
@@ -39,6 +40,12 @@ def htmlmeta_set(k,v,request=None):
     if request is None:
        request= get_current_request()
     request._htmlmeta.set(k,v)
+
+def htmlmeta_set_other(k,v,request=None):
+    """proxies HtmlMetaHub.set_other through request._htmlmeta"""
+    if request is None:
+       request= get_current_request()
+    request._htmlmeta.set_other(k,v)
     
 def htmlmeta_get(k,request=None):
     """proxies HtmlMetaHub.get through request._htmlmeta"""

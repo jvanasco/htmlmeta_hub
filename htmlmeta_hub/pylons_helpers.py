@@ -1,5 +1,9 @@
 from . import HtmlMetaHub
-from pylons import c 
+
+try:
+   from pylons import c 
+except ImportError:
+   from pylons import tmpl_context as c 
 
 def htmlmeta_setup( **kwargs ):
     """Attaches a HtmlMetaHub to a request as 'c._htmlmeta'
@@ -14,6 +18,7 @@ def htmlmeta_setup( **kwargs ):
         The helpers should allow you to easily and cleanly manage metadata within views/handlers and templates.
     """
     c._htmlmeta= HtmlMetaHub( **kwargs )
+    return c._htmlmeta
 
 def htmlmeta_set_http_equiv(k,v):
     """proxies HtmlMetaHub.set_http_equiv through c._htmlmeta"""

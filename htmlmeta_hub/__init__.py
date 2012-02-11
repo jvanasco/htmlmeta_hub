@@ -8,7 +8,7 @@ class HtmlMetaHub(object):
         
         This package is rather silly, but it affords a consistent way to manage metadata across multiple projects.
         """
-        self.data_struct= { 'http-equiv':{} , 'name':{} }
+        self.data_struct= { 'http-equiv':{} , 'name':{} , 'other':{} }
         for key,value in kwargs.iteritems():
             self.set(key,value)
         
@@ -18,6 +18,9 @@ class HtmlMetaHub(object):
 
     def set_name(self,key,value):
         self.data_struct['name'][key]= value
+
+    def set_other(self,key,value):
+        self.data_struct['other'][key]= value
         
     def set( self, key, value ):
         """ set uses (k,v) as there exists valid meta names which are now kwarg safe
@@ -53,7 +56,9 @@ class HtmlMetaHub(object):
         """
         output= []
         for k,v in self.data_struct['http-equiv'].iteritems():
-            output.append( """<meta http-equiv="%s" content="%s" />""" % ( k , v ) )
+            output.append( """<meta http-equiv="%s" content="%s"/>""" % ( k , v ) )
         for k,v in self.data_struct['name'].iteritems():
-            output.append( """<meta name="%s" content="%s" />""" % ( k , v.replace("'","\'") ) )
+            output.append( """<meta name="%s" content="%s"/>""" % ( k , v.replace("'","\'") ) )
+        for k,v in self.data_struct['other'].iteritems():
+            output.append( """<meta %s="%s"/>""" % ( k , v.replace("'","\'") ) )
         return "\n".join(output)
