@@ -12,12 +12,13 @@ README = README.split("\n\n", 1)[0] + "\n"
 requires = []
 
 setup(name="htmlmeta_hub",
-      version="0.0.2",
+      version="0.0.3",
       description="Lightweight support for managing metadata",
       long_description=README,
       classifiers=[
         "Intended Audience :: Developers",
         "Framework :: Pylons",
+        "Framework :: Pyramid",
         "Programming Language :: Python",
         "License :: OSI Approved :: MIT License",
         ],

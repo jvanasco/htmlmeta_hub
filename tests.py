@@ -9,6 +9,7 @@ import unittest
 import re
 re_refresh_15= re.compile('<meta http-equiv="refresh" content="15"/>')
 re_other_charset= re.compile('<meta charset="utf8"/>')
+re_link= re.compile('<link rel="canonical" href="http://www.w3.org"/>')
 
 # pyramid testing requirements
 from pyramid import testing
@@ -25,7 +26,7 @@ class TestCore(unittest.TestCase):
         b= a.get('description')
         a.unset('description')
         b= a.as_html()
-    
+
     def test_set_http_equiv_1(self):
         a= htmlmeta_hub.HtmlMetaHub()
         a.set_http_equiv('refresh','15')
@@ -46,12 +47,18 @@ class TestCore(unittest.TestCase):
         a.unset('refresh')
         b= a.as_html()
         self.assertNotRegexpMatches(b,re_refresh_15)
-        
+
     def test_set_other(self):
         a= htmlmeta_hub.HtmlMetaHub()
         a.set_other('charset','utf8')
         b= a.as_html()
         self.assertRegexpMatches(b,re_other_charset)
+
+    def test_set_link(self):
+        a= htmlmeta_hub.HtmlMetaHub()
+        a.set_link('canonical','http://www.w3.org')
+        b= a.as_html()
+        self.assertRegexpMatches(b,re_link)
 
 
 
@@ -96,7 +103,7 @@ class TestPyramid(unittest.TestCase):
         htmlmeta_hub.pyramid_helpers.htmlmeta_unset('refresh',request=self.request)
         b= htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
         self.assertNotRegexpMatches(b,re_refresh_15)
-        
+
     def test_set_other(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set_other('charset','utf8',request=self.request)
         b= htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
