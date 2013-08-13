@@ -24,9 +24,17 @@ def htmlmeta_set_http_equiv(k,v):
     """proxies HtmlMetaHub.set_http_equiv through c._htmlmeta"""
     c._htmlmeta.set_http_equiv(k,v)
 
+def htmlmeta_set_link(k,v):
+    """proxies HtmlMetaHub.set_link through c._htmlmeta"""
+    c._htmlmeta.set_link(k,v)
+
 def htmlmeta_set_name(k,v):
     """proxies HtmlMetaHub.set_name through c._htmlmeta"""
     c._htmlmeta.set_name(k,v)
+
+def htmlmeta_set_other(k,v):
+    """proxies HtmlMetaHub.set_other through c._htmlmeta"""
+    c._htmlmeta.set_other(k,v)
 
 def htmlmeta_set(k,v):
     """proxies HtmlMetaHub.set through c._htmlmeta"""

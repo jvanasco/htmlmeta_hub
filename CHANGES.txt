@@ -1,3 +1,10 @@
+0.0.5
+	packaging fixes
+
+0.0.4
+	cleaned up 'link rel="%s"'
+	cleaned up pyramid/pylons helpers
+
 0.0.3
 	added Pyramid classifier
 	added support for <link rel="canonical" href="http://123.com" />

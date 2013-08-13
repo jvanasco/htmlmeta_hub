@@ -1,4 +1,5 @@
-_http_equivs= ('content-type','expires','refresh')
+_http_equivs= ('content-type','expires','refresh',)
+_link_rels = ('canonical','link',)
 
 class HtmlMetaHub(object):
     data_struct= None
@@ -12,12 +13,11 @@ class HtmlMetaHub(object):
         for key,value in kwargs.iteritems():
             self.set(key,value)
 
-
     def set_http_equiv(self,key,value):
         self.data_struct['http-equiv'][key]= value
 
-    def set_link(self,key,value):
-        self.data_struct['link'][key]= value
+    def set_link(self,rel,value):
+        self.data_struct['link'][rel]= value
 
     def set_name(self,key,value):
         self.data_struct['name'][key]= value
@@ -26,11 +26,11 @@ class HtmlMetaHub(object):
         self.data_struct['other'][key]= value
 
     def set( self, key, value ):
-        """ set uses (k,v) as there exists valid meta names which are now kwarg safe
+        """ set uses (k,v) as there exists valid meta names which are not kwarg safe
         """
         if key.lower() in _http_equivs :
             self.data_struct['http-equiv'][key]= value
-        elif key.lower() == 'link' :
+        elif key.lower() in _link_rels:
             self.data_struct['link'][key]= value
         else:
             self.data_struct['name'][key]= value
@@ -38,7 +38,7 @@ class HtmlMetaHub(object):
     def get(self,key):
         if key.lower() in _http_equivs :
             return self.data_struct['http-equiv'][key]
-        elif key.lower() == 'link' :
+        elif key.lower() in _link_rels :
             return self.data_struct['link'][key]
         else:
             return self.data_struct['name'][key]
@@ -47,7 +47,7 @@ class HtmlMetaHub(object):
         if key.lower() in _http_equivs :
             if key in self.data_struct['http-equiv']:
                 del self.data_struct['http-equiv'][key]
-        elif key.lower() == 'link' :
+        elif key.lower() in _link_rels :
             if key in self.data_struct['link']:
                 del self.data_struct['link'][key]
         else:
@@ -71,6 +71,6 @@ class HtmlMetaHub(object):
             output.append( """<meta name="%s" content="%s"/>""" % ( k , v.replace("'","\'") ) )
         for k,v in self.data_struct['other'].iteritems():
             output.append( """<meta %s="%s"/>""" % ( k , v.replace("'","\'") ) )
-        for k,v in self.data_struct['link'].iteritems():
-            output.append( """<link rel="%s" href="%s"/>""" % ( k , v.replace("'","\'") ) )
+        for rel,v in self.data_struct['link'].iteritems():
+            output.append( """<link rel="%s" href="%s"/>""" % ( rel , v.replace("'","\'") ) )
         return "\n".join(output)
