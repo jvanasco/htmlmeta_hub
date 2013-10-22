@@ -10,13 +10,21 @@ README = open(os.path.join(here, "README.md")).read()
 README = README.split("\n\n", 1)[0] + "\n"
 
 requires = [\
-    "metdata_utils >=0.0.1",
+    "metadata_utils>=0.0.1",
 ]
 
 setup(name="htmlmeta_hub",
-      version="0.0.7",
       description="Lightweight support for managing metadata",
+      version="0.0.8",
+      url="https://github.com/jvanasco/htmlmeta_hub",
+      author="Jonathan Vanasco",
+      author_email="jonathan@findmeon.com",
       long_description=README,
+      zip_safe=False,
+      keywords="web pylons",
+      test_suite="tests",
+      packages=find_packages(),
+      include_package_data=True,
       classifiers=[
         "Intended Audience :: Developers",
         "Framework :: Pylons",
@@ -24,17 +32,7 @@ setup(name="htmlmeta_hub",
         "Programming Language :: Python",
         "License :: OSI Approved :: MIT License",
         ],
-      keywords="web pylons",
-      py_modules=['htmlmeta_hub'],
-      author="Jonathan Vanasco",
-      author_email="jonathan@findmeon.com",
-      url="https://github.com/jvanasco/htmlmeta_hub",
       license="MIT",
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      tests_require = requires,
-      test_suite="tests",
       install_requires = requires,
       )
 

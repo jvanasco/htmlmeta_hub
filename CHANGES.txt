@@ -1,3 +1,5 @@
+0.0.8 - packaging fixes
+
 0.0.7 -
 	* improved HTML escaping and tag writing
 		- consolidated escaping into external library, `metadata_utils`
