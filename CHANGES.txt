@@ -1,3 +1,9 @@
+0.0.7 -
+	* improved HTML escaping and tag writing
+		- consolidated escaping into external library, `metadata_utils`
+		- escaping all property k/v
+		- using explicit unicode strings
+
 0.0.6
 	packaging fixes
 

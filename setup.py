@@ -9,10 +9,12 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, "README.md")).read()
 README = README.split("\n\n", 1)[0] + "\n"
 
-requires = []
+requires = [\
+    "metdata_utils >=0.0.1",
+]
 
 setup(name="htmlmeta_hub",
-      version="0.0.6",
+      version="0.0.7",
       description="Lightweight support for managing metadata",
       long_description=README,
       classifiers=[

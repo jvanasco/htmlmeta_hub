@@ -1,3 +1,5 @@
+from metadata_utils import html_attribute_escape
+
 _http_equivs= ('content-type','expires','refresh',)
 _link_rels = ('canonical','link',)
 
@@ -66,11 +68,11 @@ class HtmlMetaHub(object):
         """
         output= []
         for k,v in self.data_struct['http-equiv'].iteritems():
-            output.append( """<meta http-equiv="%s" content="%s"/>""" % ( k , v ) )
+            output.append( u"""<meta http-equiv="%s" content="%s"/>""" % ( html_attribute_escape(k) , html_attribute_escape(v) ) )
         for k,v in self.data_struct['name'].iteritems():
-            output.append( """<meta name="%s" content="%s"/>""" % ( k , v.replace("'","\'") ) )
+            output.append( u"""<meta name="%s" content="%s"/>""" % ( html_attribute_escape(k) , html_attribute_escape(v) ) )
         for k,v in self.data_struct['other'].iteritems():
-            output.append( """<meta %s="%s"/>""" % ( k , v.replace("'","\'") ) )
+            output.append( u"""<meta %s="%s"/>""" % ( html_attribute_escape(k) , html_attribute_escape(v) ) )
         for rel,v in self.data_struct['link'].iteritems():
-            output.append( """<link rel="%s" href="%s"/>""" % ( rel , v.replace("'","\'") ) )
-        return "\n".join(output)
+            output.append( u"""<link rel="%s" href="%s"/>""" % ( html_attribute_escape(rel) , html_attribute_escape(v) ) )
+        return u"\n".join(output)
