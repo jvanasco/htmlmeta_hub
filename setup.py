@@ -16,7 +16,7 @@ requires = [
 setup(
     name="htmlmeta_hub",
     description="Lightweight support for managing metadata",
-    version="0.0.9",
+    version="0.1.0",
     url="https://github.com/jvanasco/htmlmeta_hub",
     author="Jonathan Vanasco",
     author_email="jonathan@findmeon.com",

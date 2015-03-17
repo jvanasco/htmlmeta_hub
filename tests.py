@@ -61,6 +61,21 @@ class TestCore(unittest.TestCase):
         self.assertRegexpMatches(b, re_link)
 
 
+class TestMulti(unittest.TestCase):
+
+    def test_basic(self):
+        a = htmlmeta_hub.HtmlMetaHub()
+        a.setmulti_link('author', 'Jonathan')
+        a.setmulti_link('author', 'Lindsey')
+        a.setmulti_link('author', 'Jonathan')
+        a.setmulti_link('author', 'Jonathan')
+        a.setmulti_link('author', 'Lindsey')
+        a.setmulti_link('author', 'Debbie')
+        a.unsetmulti_link('author', 'Jonathan')
+        result = """<link rel="author" href="Lindsey"/>\n<link rel="author" href="Debbie"/>"""
+        self.assertEquals(result, a.as_html())
+
+
 class TestPyramid(unittest.TestCase):
 
     def setUp(self):

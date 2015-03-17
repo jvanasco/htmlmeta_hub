@@ -12,7 +12,13 @@ class HtmlMetaHub(object):
 
         This package is rather silly, but it affords a consistent way to manage metadata across multiple projects.
         """
-        self.data_struct = {'http-equiv': {}, 'name': {}, 'other': {}, 'link': {}, }
+        self.data_struct = {
+            'http-equiv': {},
+            'name': {},
+            'other': {},
+            'link': {},
+            '_multi': {},  # private namespace for setmulti
+        }
         for key, value in kwargs.iteritems():
             self.set(key, value)
 
@@ -57,6 +63,48 @@ class HtmlMetaHub(object):
             if key in self.data_struct['name']:
                 del self.data_struct['name'][key]
 
+    # --------------------------------------------------------------------------
+    # these are used for multile items.  
+    # sometimes you'll have several 'authors' in a link
+    
+    def _hasmulti(self, section, key, value):
+        if section in self.data_struct['_multi']:
+            if key in self.data_struct['_multi'][section]:
+                if value in self.data_struct['_multi'][section][key]:
+                    return True
+        return False
+
+    def _setmulti(self, section, key, value):
+        if section not in self.data_struct['_multi']:
+            self.data_struct['_multi'][section] = {}
+        if key not in self.data_struct['_multi'][section]:
+            self.data_struct['_multi'][section][key] = []
+        if not self._hasmulti(section, key, value):
+            self.data_struct['_multi'][section][key].append(value)
+
+    def _unsetmulti(self, section, key, value):
+        if self._hasmulti(section, key, value):
+            self.data_struct['_multi'][section][key] = [i for i in self.data_struct['_multi'][section][key] if i != value ]
+
+    def _clearmulti(self, section, key):
+        if section in self.data_struct['_multi']:
+            if key in self.data_struct['_multi'][section]:
+                del self.data_struct['_multi'][section][key]
+
+    def setmulti_link(self, key, value):
+        """sets a value for a non-unique key"""
+        self._setmulti('link', key, value)
+
+    def unsetmulti_link(self, key, value):
+        """unsets a value for a non-unique key"""
+        self._unsetmulti('link', key, value)
+
+    def clearmulti_link(self, key):
+        """clears a value for a non-unique key"""
+        self._clearmulti('link', key)
+
+    # --------------------------------------------------------------------------
+
     def as_html(self):
         """helper function. prints out metadata for you.
 
@@ -76,4 +124,9 @@ class HtmlMetaHub(object):
             output.append(u"""<meta %s="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
         for (rel, v) in self.data_struct['link'].iteritems():
             output.append(u"""<link rel="%s" href="%s"/>""" % (html_attribute_escape(rel), html_attribute_escape(v)))
+        if self.data_struct['_multi']:
+            if 'link' in self.data_struct['_multi']:
+                for rel in self.data_struct['_multi']['link']:
+                    for v in self.data_struct['_multi']['link'][rel]:
+                        output.append(u"""<link rel="%s" href="%s"/>""" % (html_attribute_escape(rel), html_attribute_escape(v)))
         return u"\n".join(output)
