@@ -2,8 +2,37 @@ from . import HtmlMetaHub
 from pyramid.threadlocal import get_current_request
 
 
+def includeme(config):
+    """the pyramid includeme command
+    including this will automatically setup the htmlmeta object for every request
+    """
+    config.add_request_method(
+        'htmlmeta_hub.pyramid_helpers.new_HtmlMetaHub',
+        'htmlmeta',
+        reify=True,
+    )
+
+
+def new_HtmlMetaHub(request):
+    """simply creates a new hub"""
+    return HtmlMetaHub()
+
+
+# ==============================================================================
+#   WARNING
+#
+#   Everything below is pretty much deprecated.  use the includeme instead and request methods
+#
+# ==============================================================================
+
+
 def htmlmeta_setup(request=None, **kwargs):
     """Attaches a HtmlMetaHub to a request as 'request._htmlmeta'
+
+
+        DONT DO THIS ANYMORE.  USE THE object directly via add_request_method
+
+
 
         You'd probably have something like this in your base controller:
 

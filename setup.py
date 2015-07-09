@@ -10,13 +10,13 @@ README = open(os.path.join(here, "README.md")).read()
 README = README.split("\n\n", 1)[0] + "\n"
 
 requires = [
-    "metadata_utils>=0.0.1",
+    "metadata_utils>=0.0.2",
 ]
 
 setup(
     name="htmlmeta_hub",
     description="Lightweight support for managing metadata",
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/jvanasco/htmlmeta_hub",
     author="Jonathan Vanasco",
     author_email="jonathan@findmeon.com",

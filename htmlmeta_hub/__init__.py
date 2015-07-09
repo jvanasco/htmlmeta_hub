@@ -19,8 +19,7 @@ class HtmlMetaHub(object):
             'link': {},
             '_multi': {},  # private namespace for setmulti
         }
-        for key, value in kwargs.iteritems():
-            self.set(key, value)
+        self.set_many(**kwargs)
 
     def set_http_equiv(self, key, value):
         self.data_struct['http-equiv'][key] = value
@@ -44,6 +43,11 @@ class HtmlMetaHub(object):
         else:
             self.data_struct['name'][key] = value
 
+    def set_many(self, **kwargs):
+        """ set simply iterates over the **kwargs; here for legacy compatibility"""
+        for key, value in kwargs.iteritems():
+            self.set(key, value)
+
     def get(self, key):
         if key.lower() in _http_equivs:
             return self.data_struct['http-equiv'][key]
@@ -64,9 +68,9 @@ class HtmlMetaHub(object):
                 del self.data_struct['name'][key]
 
     # --------------------------------------------------------------------------
-    # these are used for multile items.  
+    # these are used for multile items.
     # sometimes you'll have several 'authors' in a link
-    
+
     def _hasmulti(self, section, key, value):
         if section in self.data_struct['_multi']:
             if key in self.data_struct['_multi'][section]:
@@ -84,7 +88,7 @@ class HtmlMetaHub(object):
 
     def _unsetmulti(self, section, key, value):
         if self._hasmulti(section, key, value):
-            self.data_struct['_multi'][section][key] = [i for i in self.data_struct['_multi'][section][key] if i != value ]
+            self.data_struct['_multi'][section][key] = [i for i in self.data_struct['_multi'][section][key] if i != value]
 
     def _clearmulti(self, section, key):
         if section in self.data_struct['_multi']:

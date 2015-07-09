@@ -1,3 +1,6 @@
+0.1.1 - adding support for pyramid request methods
+		DEPRECATING CURRENT pyramid helpers
+
 0.1.0 - adding support for multiple keys in `link`
 
 0.0.9 - flake8

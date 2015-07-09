@@ -5,21 +5,23 @@ htmlmeta_hub gives lightweight support for managing metadata. it simply manages 
 A typical way to use this package ( in pyramid framework ):
 
 
-helpers.py:
-    from htmlmeta_hub.pyramid_helpers import *
+__init__.py:
+
+	def main(global_config, **settings):
+		...
+		# custom htmlmeta
+		config.include("htmlmeta_hub.pyramid_helpers")
+
 
 handlers/__init__.py:
 
-    from ..lib import helpers as h
-	
 	class Handler(object):
 		def __init__(self,request):
 			self.request = request
 			# set some defaults
-			h.htmlmeta_setup(\
-				request=request,
-				title="MyApp", 
-				description="awesome", 
+			self.reqesut.htmlmeta.set_many(\
+				title="MyApp",
+				description="awesome",
 				keywords="fun!",
 			)
 
@@ -27,9 +29,10 @@ handlers/__init__.py:
 	class ContentPage(Handler):
 		def view(self):
 		    content= ...
-			h.htmlmeta_set('title',content.title)
-			h.htmlmeta_set('description',content.description)
+			self.request.htmlmeta.set('title', content.title)
+			self.request.htmlmeta.set('description', content.description)
+
 
 templates/page.mako
-	<title>${h.htmlmeta_get('title',request=request)|n}</title>
-	${h.htmlmeta_as_html(request=request)|n}
+	<title>${request.htmlmeta.get('title')|n}</title>
+	${request.htmlmeta.as_html()|n}
