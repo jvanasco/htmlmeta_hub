@@ -50,11 +50,11 @@ class HtmlMetaHub(object):
 
     def get(self, key):
         if key.lower() in _http_equivs:
-            return self.data_struct['http-equiv'][key]
+            return self.data_struct['http-equiv'].get(key, None)
         elif key.lower() in _link_rels:
-            return self.data_struct['link'][key]
+            return self.data_struct['link'].get(key, None)
         else:
-            return self.data_struct['name'][key]
+            return self.data_struct['name'].get(key, None)
 
     def unset(self, key):
         if key.lower() in _http_equivs:
