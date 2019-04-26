@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 import htmlmeta_hub
 import htmlmeta_hub.pyramid_helpers
-import htmlmeta_hub.pylons_helpers
 
 # core testing facility
 import unittest
+
+import six
+
 
 # regexes to test against
 import re
@@ -21,29 +24,34 @@ class TestCore(unittest.TestCase):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_http_equiv('refresh', '15')
         a.set_name('description', 'awesome')
+        a.set_name('title', u'greeñ')  # test unicode values
         a.set('content-type', 'text/html;charset=UTF-8')
         a.set_other('charset', 'utf8')
         b = a.get('description')
         a.unset('description')
         b = a.as_html()
+        self.assertEqual(b, u'''<meta charset="utf8"/>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+<meta http-equiv="refresh" content="15"/>
+<meta name="title" content="greeñ"/>''')
 
     def test_set_http_equiv_1(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_http_equiv('refresh', '15')
         b = a.as_html()
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
 
     def test_set_http_equiv_2(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set('refresh', '15')
         b = a.as_html()
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
 
     def test_unset_http_equiv_2(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set('refresh', '15')
         b = a.as_html()
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
         a.unset('refresh')
         b = a.as_html()
         self.assertNotRegexpMatches(b, re_refresh_15)
@@ -52,13 +60,13 @@ class TestCore(unittest.TestCase):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_other('charset', 'utf8')
         b = a.as_html()
-        self.assertRegexpMatches(b, re_other_charset)
+        six.assertRegex(self, b, re_other_charset)
 
     def test_set_link(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_link('canonical', 'http://www.w3.org')
         b = a.as_html()
-        self.assertRegexpMatches(b, re_link)
+        six.assertRegex(self, b, re_link)
 
 
 class TestMulti(unittest.TestCase):
@@ -73,7 +81,7 @@ class TestMulti(unittest.TestCase):
         a.setmulti_link('author', 'Debbie')
         a.unsetmulti_link('author', 'Jonathan')
         result = """<link rel="author" href="Lindsey"/>\n<link rel="author" href="Debbie"/>"""
-        self.assertEquals(result, a.as_html())
+        self.assertEqual(result, a.as_html())
 
 
 class TestPyramid(unittest.TestCase):
@@ -88,7 +96,7 @@ class TestPyramid(unittest.TestCase):
         testing.tearDown()
 
     def test_setup(self):
-        self.assertEquals(self.html_meta_object, self.request._htmlmeta)
+        self.assertEqual(self.html_meta_object, self.request._htmlmeta)
 
     def test_basic(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set_http_equiv('refresh', '15', request=self.request)
@@ -102,17 +110,17 @@ class TestPyramid(unittest.TestCase):
     def test_set_http_equiv_1(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set_http_equiv('refresh', '15', request=self.request)
         b = htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
 
     def test_set_http_equiv_2(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set('refresh', '15', request=self.request)
         b = htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
 
     def test_unset_http_equiv_2(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set('refresh', '15', request=self.request)
         b = htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
-        self.assertRegexpMatches(b, re_refresh_15)
+        six.assertRegex(self, b, re_refresh_15)
         htmlmeta_hub.pyramid_helpers.htmlmeta_unset('refresh', request=self.request)
         b = htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
         self.assertNotRegexpMatches(b, re_refresh_15)
@@ -120,4 +128,4 @@ class TestPyramid(unittest.TestCase):
     def test_set_other(self):
         htmlmeta_hub.pyramid_helpers.htmlmeta_set_other('charset', 'utf8', request=self.request)
         b = htmlmeta_hub.pyramid_helpers.htmlmeta_as_html(request=self.request)
-        self.assertRegexpMatches(b, re_other_charset)
+        six.assertRegex(self, b, re_other_charset)

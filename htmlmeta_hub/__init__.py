@@ -1,5 +1,12 @@
 from metadata_utils import html_attribute_escape
 
+
+__VERSION__ = '0.3.0'
+
+
+# ==============================================================================
+
+
 _http_equivs = ('content-type', 'expires', 'refresh', )
 _link_rels = ('canonical', 'link', )
 
@@ -45,7 +52,7 @@ class HtmlMetaHub(object):
 
     def set_many(self, **kwargs):
         """ set simply iterates over the **kwargs; here for legacy compatibility"""
-        for key, value in kwargs.iteritems():
+        for key, value in list(kwargs.items()):
             self.set(key, value)
 
     def get(self, key):
@@ -120,13 +127,27 @@ class HtmlMetaHub(object):
         Notice that you have to escape under Mako.   For more information on mako escape options - http://www.makotemplates.org/docs/filtering.html
         """
         output = []
-        for (k, v) in self.data_struct['http-equiv'].iteritems():
+        _others = list(self.data_struct['other'].items())
+        _equivs = list(self.data_struct['http-equiv'].items())
+        _others_2 = []
+        _equivs_2 = []
+        for (k, v) in _others:
+            if k.lower() == 'charset':
+                output.append(u"""<meta %s="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
+            else:
+                _others_2.append((k, v))
+        for (k, v) in _equivs:
+            if 'charset' in v.lower():
+                output.append(u"""<meta http-equiv="%s" content="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
+            else:
+                _equivs_2.append((k, v))
+        for (k, v) in _equivs_2:
             output.append(u"""<meta http-equiv="%s" content="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
-        for (k, v) in self.data_struct['name'].iteritems():
+        for (k, v) in list(self.data_struct['name'].items()):
             output.append(u"""<meta name="%s" content="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
-        for (k, v) in self.data_struct['other'].iteritems():
+        for (k, v) in _others_2:
             output.append(u"""<meta %s="%s"/>""" % (html_attribute_escape(k), html_attribute_escape(v)))
-        for (rel, v) in self.data_struct['link'].iteritems():
+        for (rel, v) in list(self.data_struct['link'].items()):
             output.append(u"""<link rel="%s" href="%s"/>""" % (html_attribute_escape(rel), html_attribute_escape(v)))
         if self.data_struct['_multi']:
             if 'link' in self.data_struct['_multi']:

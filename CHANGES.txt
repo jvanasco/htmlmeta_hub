@@ -1,3 +1,7 @@
+0.2.0
+	dropping pylons
+	
+
 0.1.2 - used dict's `get` method with an explicit fallback onto None, so data does not have to be explicitly checked
 
 0.1.1 - adding support for pyramid request methods
