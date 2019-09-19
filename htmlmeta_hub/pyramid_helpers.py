@@ -7,9 +7,7 @@ def includeme(config):
     including this will automatically setup the htmlmeta object for every request
     """
     config.add_request_method(
-        'htmlmeta_hub.pyramid_helpers.new_HtmlMetaHub',
-        'htmlmeta',
-        reify=True,
+        "htmlmeta_hub.pyramid_helpers.new_HtmlMetaHub", "htmlmeta", reify=True
     )
 
 

@@ -1,7 +1,15 @@
+0.3.2rc
+	black
+
+0.3.1
+	reverted an aggressive 2to3 change
+
+0.3.0
+	python3 official support
+
 0.2.0
 	dropping pylons
 	
-
 0.1.2 - used dict's `get` method with an explicit fallback onto None, so data does not have to be explicitly checked
 
 0.1.1 - adding support for pyramid request methods
