@@ -41,8 +41,7 @@ class HtmlMetaHub(object):
         self.data_struct["other"][key] = value
 
     def set(self, key, value):
-        """ set uses (k,v) as there exists valid meta names which are not kwarg safe
-        """
+        """set uses (k,v) as there exists valid meta names which are not kwarg safe"""
         if key.lower() in _http_equivs:
             self.data_struct["http-equiv"][key] = value
         elif key.lower() in _link_rels:

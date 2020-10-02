@@ -28,23 +28,23 @@ def htmlmeta_setup(request=None, **kwargs):
     """Attaches a HtmlMetaHub to a request as 'request._htmlmeta'
 
 
-        DONT DO THIS ANYMORE.  USE THE object directly via add_request_method
+    DONT DO THIS ANYMORE.  USE THE object directly via add_request_method
 
 
 
-        You'd probably have something like this in your base controller:
+    You'd probably have something like this in your base controller:
 
-        from htmlmeta_hub.pyramid_helpers import *
-        class Handler(object):
-            def __init__(self,request):
-                self.request = request
-                h.htmlmeta_init(self.request, title='MySite', keywords='abc', description='awesome website')
+    from htmlmeta_hub.pyramid_helpers import *
+    class Handler(object):
+        def __init__(self,request):
+            self.request = request
+            h.htmlmeta_init(self.request, title='MySite', keywords='abc', description='awesome website')
 
-        All the commands in the module accept an optional 'request' kwarg, but you should really pass it in.
+    All the commands in the module accept an optional 'request' kwarg, but you should really pass it in.
 
-        If no 'request' is submitted, it will call pyramid.threadlocal.get_current_request()
+    If no 'request' is submitted, it will call pyramid.threadlocal.get_current_request()
 
-        The helpers should allow you to easily and cleanly manage metadata within views/handlers and templates.
+    The helpers should allow you to easily and cleanly manage metadata within views/handlers and templates.
     """
     request = request or get_current_request()
     request._htmlmeta = HtmlMetaHub(**kwargs)
