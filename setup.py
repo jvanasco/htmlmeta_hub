@@ -14,10 +14,16 @@ README = README.split("\n\n", 1)[0] + "\n"
 with open(
     os.path.join(os.path.dirname(__file__), "htmlmeta_hub", "__init__.py")
 ) as v_file:
-    VERSION = re.compile(r".*__VERSION__ = '(.*?)'", re.S).match(v_file.read()).group(1)
+    VERSION = re.compile(r'.*__VERSION__ = "(.*?)"', re.S).match(v_file.read()).group(1)
 
 requires = ["metadata_utils>=0.0.2"]
-tests_require = ["six"]
+tests_require = [
+    "six",
+    "pyramid",
+]
+testing_extras = tests_require + [
+    "pytest",
+]
 
 
 setup(
@@ -44,4 +50,7 @@ setup(
     license="MIT",
     install_requires=requires,
     tests_require=tests_require,
+    extras_require={
+        "testing": testing_extras,
+    },
 )

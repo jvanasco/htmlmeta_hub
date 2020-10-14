@@ -1,9 +1,10 @@
+0.3.2rc
 unreleased
 	* upgraded black
 	* integrated with pre-commit
-
-0.3.2rc
-	black
+	* tox testing
+	* github actions
+	* black
 
 0.3.1
 	reverted an aggressive 2to3 change
