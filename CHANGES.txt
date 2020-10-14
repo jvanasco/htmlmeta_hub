@@ -1,5 +1,7 @@
-0.3.2rc
 unreleased
+
+
+0.3.2
 	* upgraded black
 	* integrated with pre-commit
 	* tox testing
