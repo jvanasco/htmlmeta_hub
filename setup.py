@@ -6,9 +6,14 @@ import re
 from setuptools import setup
 from setuptools import find_packages
 
-here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, "README.md")).read()
-README = README.split("\n\n", 1)[0] + "\n"
+long_description = (
+    description
+) = "Lightweight support for managing metadata on webpages."
+try:
+    here = os.path.abspath(os.path.dirname(__file__))
+    long_description = open(os.path.join(here, "README.md")).read()
+except:
+    pass
 
 # store version in the init.py
 with open(
@@ -20,22 +25,22 @@ requires = ["metadata_utils>=0.0.2"]
 tests_require = [
     "six",
     "pyramid",
-]
-testing_extras = tests_require + [
     "pytest",
 ]
+testing_extras = tests_require + []
 
 
 setup(
     name="htmlmeta_hub",
-    description="Lightweight support for managing metadata",
     version=VERSION,
+    description=description,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/jvanasco/htmlmeta_hub",
     author="Jonathan Vanasco",
     author_email="jonathan@findmeon.com",
-    long_description=README,
     zip_safe=False,
-    keywords="web pyramid",
+    keywords="metadata html web pyramid",
     test_suite="tests",
     packages=find_packages(),
     include_package_data=True,
