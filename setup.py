@@ -6,19 +6,15 @@ import re
 from setuptools import setup
 from setuptools import find_packages
 
+HERE = os.path.abspath(os.path.dirname(__file__))
 long_description = (
     description
 ) = "Lightweight support for managing metadata on webpages."
-try:
-    here = os.path.abspath(os.path.dirname(__file__))
-    long_description = open(os.path.join(here, "README.md")).read()
-except:
-    pass
+with open(os.path.join(HERE, "README.md")) as f:
+    long_description = f.read()
 
 # store version in the init.py
-with open(
-    os.path.join(os.path.dirname(__file__), "htmlmeta_hub", "__init__.py")
-) as v_file:
+with open(os.path.join(HERE, "htmlmeta_hub", "__init__.py")) as v_file:
     VERSION = re.compile(r'.*__VERSION__ = "(.*?)"', re.S).match(v_file.read()).group(1)
 
 requires = ["metadata_utils>=0.0.2"]
