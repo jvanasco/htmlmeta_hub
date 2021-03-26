@@ -14,7 +14,7 @@ with open(os.path.join(HERE, "README.md")) as f:
     long_description = f.read()
 
 # store version in the init.py
-with open(os.path.join(HERE, "htmlmeta_hub", "__init__.py")) as v_file:
+with open(os.path.join(HERE, "src", "htmlmeta_hub", "__init__.py")) as v_file:
     VERSION = re.compile(r'.*__VERSION__ = "(.*?)"', re.S).match(v_file.read()).group(1)
 
 requires = ["metadata_utils>=0.0.2"]
@@ -37,9 +37,12 @@ setup(
     author_email="jonathan@findmeon.com",
     zip_safe=False,
     keywords="metadata html web pyramid",
-    test_suite="tests",
-    packages=find_packages(),
+    packages=find_packages(
+        where="src",
+    ),
+    package_dir={"": "src"},
     include_package_data=True,
+    test_suite="tests",
     classifiers=[
         "Intended Audience :: Developers",
         "Framework :: Pyramid",

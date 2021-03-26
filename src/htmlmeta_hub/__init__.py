@@ -1,7 +1,7 @@
 from metadata_utils import html_attribute_escape
 
 
-__VERSION__ = "0.4.0"
+__VERSION__ = "0.4.1"
 
 
 # ==============================================================================
