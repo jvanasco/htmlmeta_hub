@@ -19,7 +19,7 @@ with open(os.path.join(HERE, "src", "htmlmeta_hub", "__init__.py")) as v_file:
 
 requires = ["metadata_utils>=0.0.2"]
 tests_require = [
-    "six",
+    "mypy",
     "pyramid",
     "pytest",
 ]
@@ -41,14 +41,19 @@ setup(
         where="src",
     ),
     package_dir={"": "src"},
+    package_data={"htmlmeta_hub": ["py.typed"]},
     include_package_data=True,
-    test_suite="tests",
     classifiers=[
         "Intended Audience :: Developers",
         "Framework :: Pyramid",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
     ],
     license="MIT",
@@ -57,4 +62,5 @@ setup(
     extras_require={
         "testing": testing_extras,
     },
+    test_suite="tests",
 )
