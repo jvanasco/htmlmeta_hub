@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 # stdlib
-import re
 import unittest
-
-# pypi
-import six
 
 # pyramid testing requirements
 from pyramid import testing

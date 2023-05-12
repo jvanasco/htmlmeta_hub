@@ -1,7 +1,17 @@
+# stdlib
+import typing
+
+# local
 from . import HtmlMetaHub
 
+if typing.TYPE_CHECKING:
+    from pyramid.config import Configurator  # type: ignore[import]
+    from pyramid.request import Request  # type: ignore[import]
 
-def includeme(config):
+# ==============================================================================
+
+
+def includeme(config: "Configurator"):
     """the pyramid includeme command
     including this will automatically setup the htmlmeta object for every request
     """
@@ -10,6 +20,6 @@ def includeme(config):
     )
 
 
-def new_HtmlMetaHub(request):
+def new_HtmlMetaHub(request: "Request"):
     """simply creates a new hub"""
     return HtmlMetaHub()

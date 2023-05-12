@@ -3,9 +3,6 @@
 import re
 import unittest
 
-# pypi
-import six
-
 # local package for testing
 import htmlmeta_hub
 
@@ -26,7 +23,7 @@ class TestCore(unittest.TestCase):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_http_equiv("refresh", "15")
         a.set_name("description", "awesome")
-        a.set_name("title", u"greeñ")  # test unicode values
+        a.set_name("title", "greeñ")  # test unicode values
         a.set("content-type", "text/html;charset=UTF-8")
         a.set_other("charset", "utf8")
         b = a.get("description")
@@ -34,7 +31,7 @@ class TestCore(unittest.TestCase):
         b = a.as_html()
         self.assertEqual(
             b,
-            u"""<meta charset="utf8"/>
+            """<meta charset="utf8"/>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
 <meta http-equiv="refresh" content="15"/>
 <meta name="title" content="greeñ"/>""",
@@ -44,19 +41,19 @@ class TestCore(unittest.TestCase):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_http_equiv("refresh", "15")
         b = a.as_html()
-        six.assertRegex(self, b, re_refresh_15)
+        self.assertRegex(b, re_refresh_15)
 
     def test_set_http_equiv_2(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set("refresh", "15")
         b = a.as_html()
-        six.assertRegex(self, b, re_refresh_15)
+        self.assertRegex(b, re_refresh_15)
 
     def test_unset_http_equiv_2(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set("refresh", "15")
         b = a.as_html()
-        six.assertRegex(self, b, re_refresh_15)
+        self.assertRegex(b, re_refresh_15)
         a.unset("refresh")
         b = a.as_html()
         self.assertNotRegexpMatches(b, re_refresh_15)
@@ -65,13 +62,13 @@ class TestCore(unittest.TestCase):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_other("charset", "utf8")
         b = a.as_html()
-        six.assertRegex(self, b, re_other_charset)
+        self.assertRegex(b, re_other_charset)
 
     def test_set_link(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_link("canonical", "http://www.w3.org")
         b = a.as_html()
-        six.assertRegex(self, b, re_link)
+        self.assertRegex(b, re_link)
 
 
 class TestMulti(unittest.TestCase):
