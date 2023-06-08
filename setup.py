@@ -17,7 +17,7 @@ with open(os.path.join(HERE, "README.md")) as f:
 with open(os.path.join(HERE, "src", "htmlmeta_hub", "__init__.py")) as v_file:
     VERSION = re.compile(r'.*__VERSION__ = "(.*?)"', re.S).match(v_file.read()).group(1)
 
-requires = ["metadata_utils>=0.0.2"]
+requires = ["metadata_utils>=0.2.0"]
 tests_require = [
     "mypy",
     "pyramid",

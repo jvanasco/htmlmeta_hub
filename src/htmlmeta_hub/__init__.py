@@ -137,7 +137,7 @@ class HtmlMetaHub(object):
         _equivs = self.data_struct["http-equiv"].items()
         _others_2 = []
         _equivs_2 = []
-        for (k, v) in _others:
+        for k, v in _others:
             if k.lower() == "charset":
                 output.append(
                     """<meta %s="%s"/>"""
@@ -145,7 +145,7 @@ class HtmlMetaHub(object):
                 )
             else:
                 _others_2.append((k, v))
-        for (k, v) in _equivs:
+        for k, v in _equivs:
             if "charset" in v.lower():
                 output.append(
                     """<meta http-equiv="%s" content="%s"/>"""
@@ -153,22 +153,22 @@ class HtmlMetaHub(object):
                 )
             else:
                 _equivs_2.append((k, v))
-        for (k, v) in _equivs_2:
+        for k, v in _equivs_2:
             output.append(
                 """<meta http-equiv="%s" content="%s"/>"""
                 % (html_attribute_escape(k), html_attribute_escape(v))
             )
-        for (k, v) in self.data_struct["name"].items():
+        for k, v in self.data_struct["name"].items():
             output.append(
                 """<meta name="%s" content="%s"/>"""
                 % (html_attribute_escape(k), html_attribute_escape(v))
             )
-        for (k, v) in _others_2:
+        for k, v in _others_2:
             output.append(
                 """<meta %s="%s"/>"""
                 % (html_attribute_escape(k), html_attribute_escape(v))
             )
-        for (rel, v) in self.data_struct["link"].items():
+        for rel, v in self.data_struct["link"].items():
             output.append(
                 """<link rel="%s" href="%s"/>"""
                 % (html_attribute_escape(rel), html_attribute_escape(v))
