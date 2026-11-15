@@ -7,7 +7,7 @@ from typing import Optional
 from metadata_utils import html_attribute_escape
 
 
-__VERSION__ = "0.5.0"
+__VERSION__ = "1.0.0"
 
 
 # ==============================================================================

@@ -1,4 +1,4 @@
-unreleased
+v1.0.0
     * Reject malformed custom meta attribute names before rendering HTML.
     * Modernized setuptools packaging and added Python 3.6–3.15 coverage jobs.
     * Retained pkg_resources for Pyramid 2.0 on Python 3.7–3.9.
