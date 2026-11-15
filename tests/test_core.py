@@ -56,7 +56,7 @@ class TestCore(unittest.TestCase):
         self.assertRegex(b, re_refresh_15)
         a.unset("refresh")
         b = a.as_html()
-        self.assertNotRegexpMatches(b, re_refresh_15)
+        self.assertNotRegex(b, re_refresh_15)
 
     def test_set_other(self):
         a = htmlmeta_hub.HtmlMetaHub()
