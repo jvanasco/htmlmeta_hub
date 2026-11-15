@@ -1,4 +1,5 @@
 # stdlib
+import re
 from typing import Dict
 from typing import Optional
 
@@ -14,6 +15,19 @@ __VERSION__ = "0.5.0"
 
 _http_equivs = ("content-type", "expires", "refresh")
 _link_rels = ("canonical", "link")
+_invalid_attribute_name_character = re.compile(
+    r"""[\x00-\x20"'<>/=\x7f-\x9f\ud800-\udfff\ufdd0-\ufdef]"""
+)
+
+
+def _validate_attribute_name(name: str) -> None:
+    """Reject empty names, HTML delimiters, controls, and invalid code points."""
+    if (
+        not name
+        or _invalid_attribute_name_character.search(name)
+        or any((ord(character) & 0xFFFF) >= 0xFFFE for character in name)
+    ):
+        raise ValueError("Expected a valid HTML attribute name")
 
 
 class HtmlMetaHub(object):
@@ -42,7 +56,9 @@ class HtmlMetaHub(object):
     def set_name(self, key: str, value: str):
         self.data_struct["name"][key] = value
 
-    def set_other(self, key: str, value: str):
+    def set_other(self, key: str, value: str) -> None:
+        """Set a meta attribute, raising ValueError for a malformed name."""
+        _validate_attribute_name(key)
         self.data_struct["other"][key] = value
 
     def set(self, key: str, value: str):
@@ -138,10 +154,11 @@ class HtmlMetaHub(object):
         _others_2 = []
         _equivs_2 = []
         for k, v in _others:
+            _validate_attribute_name(k)
             if k.lower() == "charset":
                 output.append(
                     """<meta %s="%s"/>"""
-                    % (html_attribute_escape(k), html_attribute_escape(v))
+                    % (k, html_attribute_escape(v))
                 )
             else:
                 _others_2.append((k, v))
@@ -164,10 +181,7 @@ class HtmlMetaHub(object):
                 % (html_attribute_escape(k), html_attribute_escape(v))
             )
         for k, v in _others_2:
-            output.append(
-                """<meta %s="%s"/>"""
-                % (html_attribute_escape(k), html_attribute_escape(v))
-            )
+            output.append("""<meta %s="%s"/>""" % (k, html_attribute_escape(v)))
         for rel, v in self.data_struct["link"].items():
             output.append(
                 """<link rel="%s" href="%s"/>"""
