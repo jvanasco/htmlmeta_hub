@@ -56,13 +56,38 @@ class TestCore(unittest.TestCase):
         self.assertRegex(b, re_refresh_15)
         a.unset("refresh")
         b = a.as_html()
-        self.assertNotRegexpMatches(b, re_refresh_15)
+        self.assertNotRegex(b, re_refresh_15)
 
     def test_set_other(self):
         a = htmlmeta_hub.HtmlMetaHub()
         a.set_other("charset", "utf8")
         b = a.as_html()
         self.assertRegex(b, re_other_charset)
+
+    def test_set_other_preserves_valid_attribute_names(self) -> None:
+        """Render a custom name literally and escape its quoted value."""
+        hub = htmlmeta_hub.HtmlMetaHub()
+        hub.set_other("data-label", '"A&B"')
+        hub.set_other("data-a&b", "value")
+        self.assertEqual(
+            hub.as_html(),
+            '<meta data-label="&quot;A&amp;B&quot;"/>\n<meta data-a&b="value"/>',
+        )
+
+    def test_set_other_rejects_malformed_attribute_names(self) -> None:
+        """Reject malformed names before storing metadata."""
+        hub = htmlmeta_hub.HtmlMetaHub()
+        for name in ("", "a b", "a\tb", "a/b", "a=b", 'a"b', "a<b", "a\0b", "a\uffff"):
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                hub.set_other(name, "value")
+        self.assertEqual(hub.as_html(), "")
+
+    def test_as_html_rejects_malformed_stored_attribute_name(self) -> None:
+        """Validate attributes inserted directly into the public data structure."""
+        hub = htmlmeta_hub.HtmlMetaHub()
+        hub.data_struct["other"]["invalid name"] = "value"
+        with self.assertRaises(ValueError):
+            hub.as_html()
 
     def test_set_link(self):
         a = htmlmeta_hub.HtmlMetaHub()
